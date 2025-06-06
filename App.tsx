@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { CodeEditor } from './components/CodeEditor';
 import { OutputConsole } from './components/OutputConsole';
@@ -118,41 +117,36 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-gray-100">
-      <header className="bg-gray-800 p-3 shadow-md flex items-center justify-between border-b border-gray-700">
-        <h1 className="text-xl font-semibold text-cyan-400">Pyodide Web IDE</h1>
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={handleRunCode}
-            disabled={isPyodideLoading || isRunningCode || !pyodide}
-            className="flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-          >
-            <PlayIcon className="h-5 w-5 mr-2" />
-            Run Code
-          </button>
-          <button
-            onClick={handleClearOutput}
-            className="flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-          >
-            <ClearIcon className="h-5 w-5 mr-2" />
-            Clear Output
-          </button>
+      <div className="flex flex-grow">
+        <div className="w-16 bg-gray-800 flex flex-col items-center py-4 space-y-6 border-r border-gray-700">
+          <div className="w-10 h-10 bg-yellow-500 rounded-full"></div>
+          <div className="w-10 h-10 bg-blue-500 rounded-md"></div>
         </div>
-      </header>
 
-      <main className="flex-grow flex flex-col md:flex-row overflow-hidden p-1">
-        <div className="w-full md:w-1/2 h-1/2 md:h-full p-1 flex flex-col">
-           <h2 className="text-sm font-semibold mb-1 px-2 py-1 bg-gray-700 rounded-t-md text-gray-300">Python Code Editor</h2>
-          <CodeEditor
-            code={pythonCode}
-            setCode={setPythonCode}
-            disabled={isRunningCode || isPyodideLoading}
-          />
-        </div>
-        <div className="w-full md:w-1/2 h-1/2 md:h-full p-1 flex flex-col">
-           <h2 className="text-sm font-semibold mb-1 px-2 py-1 bg-gray-700 rounded-t-md text-gray-300">Output Console</h2>
-          <OutputConsole messages={outputMessages} />
-        </div>
-      </main>
+        <main className="flex-grow flex flex-col overflow-hidden p-1">
+          <div className="w-full h-1/2 p-1 flex flex-col">
+             <h2 className="sr-only">Python Code Editor</h2>
+            <CodeEditor
+              code={pythonCode}
+              setCode={setPythonCode}
+              disabled={isRunningCode || isPyodideLoading}
+            />
+          </div>
+
+          <div className="w-full h-1/2 p-1 flex flex-col relative">
+             <h2 className="sr-only">Output Console</h2>
+            <OutputConsole messages={outputMessages} />
+
+            <button
+              onClick={handleRunCode}
+              disabled={isPyodideLoading || isRunningCode || !pyodide}
+              className="absolute bottom-4 right-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              Start
+            </button>
+          </div>
+        </main>
+      </div>
 
       <StatusBar
         isLoading={isPyodideLoading}
