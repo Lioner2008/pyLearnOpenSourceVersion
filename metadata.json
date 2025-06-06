@@ -1,0 +1,5 @@
+{
+  "name": "Pyodide Web IDE",
+  "description": "A web-based IDE to write and run Python code in the browser using Pyodide. It features a code editor, an output console, and real-time Python execution capabilities.",
+  "requestFramePermissions": []
+}
