@@ -1,5 +1,5 @@
-
 import React from 'react';
+import Editor, { OnChange } from '@monaco-editor/react';
 
 interface CodeEditorProps {
   code: string;
@@ -8,15 +8,30 @@ interface CodeEditorProps {
 }
 
 export const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, disabled }) => {
+  const handleEditorChange: OnChange = (value) => {
+    setCode(value || '');
+  };
+
   return (
-    <textarea
-      value={code}
-      onChange={(e) => setCode(e.target.value)}
-      disabled={disabled}
-      className="flex-grow w-full p-3 bg-gray-800 text-gray-100 border border-gray-700 rounded-b-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none resize-none font-mono text-sm leading-relaxed shadow-inner"
-      spellCheck="false"
-      placeholder="Write your Python code here..."
-      rows={10} // Default, flex-grow will manage height
-    />
+    <div className="flex-grow w-full border border-gray-700 rounded-b-md overflow-hidden">
+      <Editor
+        height="100%"
+        defaultLanguage="python"
+        value={code}
+        onChange={handleEditorChange}
+        options={{
+          minimap: { enabled: false },
+          fontSize: 14,
+          lineNumbers: 'on',
+          roundedSelection: false,
+          scrollBeyondLastLine: false,
+          readOnly: disabled,
+          automaticLayout: true,
+          theme: 'vs-dark',
+          wordWrap: 'on',
+          padding: { top: 10, bottom: 10 },
+        }}
+      />
+    </div>
   );
 };
